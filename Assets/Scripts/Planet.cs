@@ -4,12 +4,27 @@ using UnityEngine;
 
 public class Planet : MonoBehaviour
 {
-    public GameObject target;
-    public float rotSpeed;
-    public float orbitDistance;
+    GameObject target;
+    float rotSpeed;
+    float orbitDistance;
+    Vector3 initPos;
 
     void Start() {
-        transform.position = target.transform.position + (transform.position - target.transform.position).normalized * orbitDistance;
+
+        target  = GameObject.FindWithTag("Star");
+        if(target != null) {
+            CreatePlanet();
+        }
+        else {
+            Debug.Log("No star in this solar system...");
+            Destroy(gameObject);
+        }
+    }
+
+    void CreatePlanet() {
+        orbitDistance = 5;
+        rotSpeed = 5;
+        initPos = target.transform.position + (transform.position - target.transform.position).normalized * orbitDistance;
     }
 
     void Update() {
