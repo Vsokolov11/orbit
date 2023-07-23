@@ -5,8 +5,8 @@ using UnityEngine;
 public class Planet : MonoBehaviour
 {
     GameObject target;
-    public float rotSpeed;
     public float orbitDistance;
+    public float orbitSpeed;
     public Vector3 initPos;
 
     void Start() {
@@ -27,7 +27,7 @@ public class Planet : MonoBehaviour
 
     void Update() {
         transform.position = target.transform.position + (transform.position - target.transform.position).normalized * orbitDistance;
-        transform.RotateAround(target.transform.position, Vector3.up, rotSpeed * Time.deltaTime);
+        transform.RotateAround(target.transform.position, Vector3.up, orbitSpeed * Time.deltaTime);
     }
 
 }

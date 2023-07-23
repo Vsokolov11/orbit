@@ -13,12 +13,12 @@ public class CreateObject : MonoBehaviour
     public static Objects objectType;
 
     static float orbitDistanceValue;
+    static float orbitSpeedValue;
 
     public Planet PlanetPrefab;
     public Star StarPrefab;
 
     public void SelectType(int index) {
-        Debug.Log(index);
         switch (index) {
             case 0:
                 Debug.Log("You chose a star...");
@@ -37,7 +37,10 @@ public class CreateObject : MonoBehaviour
 
     public void SetOrbitDistance(float value) {
         orbitDistanceValue = value;
-        Debug.Log("Val " + value);
+    }
+
+    public void SetOrbitSpeed(float value) {
+        orbitSpeedValue = value;
     }
 
     public void AddObject() {
@@ -49,6 +52,7 @@ public class CreateObject : MonoBehaviour
             case Objects.planet:
                 Planet instantiatedPlanet = Instantiate(PlanetPrefab, new Vector3(1, 0, 1), Quaternion.identity);
                 instantiatedPlanet.orbitDistance = orbitDistanceValue;
+                instantiatedPlanet.orbitSpeed = orbitSpeedValue;
                 Debug.Log("Creating a planet...");
             break;
             case Objects.moon:
