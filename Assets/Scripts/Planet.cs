@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class Planet : MonoBehaviour
 {
-    GameObject target;
-    public float orbitDistance;
-    public float orbitSpeed;
-    public Vector3 initPos;
+    private Renderer renderer;
+    private GameObject target;
+    private float orbitDistance;
+    private float orbitSpeed;
+    private Vector3 initPos;
+    private bool isSelected;
 
     void Start() {
-
+        isSelected = false;
+        renderer = GetComponent<Renderer>();
         target  = GameObject.FindWithTag("Star");
         if(target != null) {
             InitializePlanet();
@@ -28,6 +31,28 @@ public class Planet : MonoBehaviour
     void Update() {
         transform.position = target.transform.position + (transform.position - target.transform.position).normalized * orbitDistance;
         transform.RotateAround(target.transform.position, Vector3.up, orbitSpeed * Time.deltaTime);
+
+        if(isSelected) {
+            renderer.material.color = Color.green;
+        }
+    }
+
+    private void OnMouseEnter() {
+        renderer.material.color += Color.red;
+    }
+
+    private void OnMouseExit() {
+        renderer.material.color -= Color.red;
+    }
+
+    public void Select(bool state) {
+        isSelected = state;
+    }
+
+    public void ChangeValues(float newOrbitDistance, float newOrbitSpeed) {
+        Debug.Log("new orbit distance" + newOrbitDistance);
+        orbitDistance = newOrbitDistance;
+        orbitSpeed = newOrbitSpeed;
     }
 
 }

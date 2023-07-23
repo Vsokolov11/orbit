@@ -12,11 +12,44 @@ public class CreateObject : MonoBehaviour
 
     public static Objects objectType;
 
+    GameObject selected;
+    Camera Camera;
+
     static float orbitDistanceValue;
     static float orbitSpeedValue;
 
     public Planet PlanetPrefab;
     public Star StarPrefab;
+
+    public void Start() {
+        Camera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+    }
+
+    void Update()
+    {
+        if(Input.GetMouseButtonDown(0)) {
+            Ray ray = Camera.ScreenPointToRay(Input.mousePosition);
+
+            if(Physics.Raycast(ray, out RaycastHit hitInfo)) {
+                selected = hitInfo.transform.gameObject;
+            }
+            else {
+                selected = null;
+            }
+
+            if (selected != null) {
+                if(selected.GetComponent<Planet>() != null) {
+                    Debug.Log("Selected Object is a planet...");
+                    Planet selectedPlanet = selected.GetComponent<Planet>();
+                    selectedPlanet.Select(true);
+                    selectedPlanet.ChangeValues(orbitDistanceValue, orbitSpeedValue);
+                }
+                if(selected.GetComponent<Star>() != null) {
+                    Debug.Log("Selected Object is a star...");
+                }
+            }
+        }
+    }
 
     public void SelectType(int index) {
         switch (index) {
@@ -51,8 +84,7 @@ public class CreateObject : MonoBehaviour
             break;
             case Objects.planet:
                 Planet instantiatedPlanet = Instantiate(PlanetPrefab, new Vector3(1, 0, 1), Quaternion.identity);
-                instantiatedPlanet.orbitDistance = orbitDistanceValue;
-                instantiatedPlanet.orbitSpeed = orbitSpeedValue;
+                instantiatedPlanet.ChangeValues(orbitDistanceValue, orbitSpeedValue);
                 Debug.Log("Creating a planet...");
             break;
             case Objects.moon:
