@@ -34,6 +34,8 @@ public class Planet : MonoBehaviour
 
         if(isSelected) {
             renderer.material.color = Color.green;
+        } else {
+            renderer.material.color = Color.blue;
         }
     }
 
@@ -50,9 +52,14 @@ public class Planet : MonoBehaviour
     }
 
     public void ChangeValues(float newOrbitDistance, float newOrbitSpeed) {
-        Debug.Log("new orbit distance" + newOrbitDistance);
+        //Debug.Log("new orbit distance" + newOrbitDistance);
         orbitDistance = newOrbitDistance;
         orbitSpeed = newOrbitSpeed;
+    }
+
+    public void CrashIntoStar() {
+        Debug.Log("I was too close to the sun...");
+        Destroy(gameObject);
     }
 
 }

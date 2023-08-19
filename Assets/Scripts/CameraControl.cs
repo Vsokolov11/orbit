@@ -37,7 +37,5 @@ public class CameraControl : MonoBehaviour
         Vector3 camera_movement = new Vector3(camera_position.x * dragSpeed * -1, 0, camera_position.y * dragSpeed * -1);
 
         transform.Translate(camera_movement, Space.World);
-
-
     }
 }
