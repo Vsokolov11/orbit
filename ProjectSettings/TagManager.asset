@@ -9,6 +9,8 @@ TagManager:
   - Moon
   - DistanceSlider
   - SpeedSlider
+  - PausedCanvas
+  - RunningCanvas
   layers:
   - Default
   - TransparentFX

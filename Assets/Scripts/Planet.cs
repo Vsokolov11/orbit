@@ -11,6 +11,8 @@ public class Planet : MonoBehaviour
     private Vector3 initPos;
     private bool isSelected;
 
+    private GameObject selectionPointer;
+
     void Start() {
         isSelected = false;
         renderer = GetComponent<Renderer>();
@@ -22,6 +24,8 @@ public class Planet : MonoBehaviour
             Debug.Log("No star in this solar system...");
             Destroy(gameObject);
         }
+        selectionPointer = this.gameObject.transform.GetChild(0).gameObject;
+        selectionPointer.SetActive(false);
     }
 
     void InitializePlanet() {
@@ -34,9 +38,11 @@ public class Planet : MonoBehaviour
 
         if(isSelected) {
             renderer.material.color = Color.green;
+            selectionPointer.SetActive(true);
         }
         else {
             renderer.material.color = Color.blue;
+            selectionPointer.SetActive(false);
         }
     }
 

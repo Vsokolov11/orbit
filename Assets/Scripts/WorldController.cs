@@ -19,6 +19,8 @@ public class WorldController : MonoBehaviour
 
     GameObject selected;
     Camera Camera;
+    GameObject RunningCanvas;
+    GameObject PausedCanvas;
 
     static float orbitDistanceValue;
     static float orbitSpeedValue;
@@ -29,12 +31,14 @@ public class WorldController : MonoBehaviour
     public Moon MoonPrefab;
 
     private bool slidersSet;
+    private bool isPaused;
     
 
     public void Start() {
         Camera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
         selectedPlanet = null;
         slidersSet = false;
+        isPaused = false;
         speedSlider = GameObject.FindWithTag("SpeedSlider").GetComponent<Slider>();
         distanceSlider = GameObject.FindWithTag("DistanceSlider").GetComponent<Slider>();
         if(speedSlider == null) {
@@ -49,10 +53,32 @@ public class WorldController : MonoBehaviour
         else {
             distanceSlider.value = 20;
         }
+
+        RunningCanvas = GameObject.FindWithTag("RunningCanvas");
+        if(RunningCanvas == null) {
+            Debug.Log("Running canvas couldn't be found");
+        }
+
+        PausedCanvas = GameObject.FindWithTag("PausedCanvas");
+        if(PausedCanvas != null) {
+            PausedCanvas.GetComponent<Canvas> ().enabled = false;
+        } 
+        else {
+            Debug.Log("Paused canvas couldn't be found");
+        }
     }
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape) && !isPaused) {
+            PauseGame();
+            isPaused = true;
+        }
+        else if(Input.GetKeyDown(KeyCode.Escape) && isPaused) {
+            ResumeGame();
+            isPaused = false;
+        } 
+
         if(Input.GetMouseButtonDown(0)) {
             Ray ray = Camera.ScreenPointToRay(Input.mousePosition);
 
@@ -158,5 +184,19 @@ public class WorldController : MonoBehaviour
                 Debug.Log("No such type of stellar object...");
             break;
         }
+    }
+
+    public void PauseGame ()
+    {
+        Debug.Log("Pausing");
+        RunningCanvas.GetComponent<Canvas> ().enabled = false;
+        PausedCanvas.GetComponent<Canvas> ().enabled = true;
+    }
+
+    public void ResumeGame ()
+    {
+        Debug.Log("Resum");
+        RunningCanvas.GetComponent<Canvas> ().enabled = true;
+        PausedCanvas.GetComponent<Canvas> ().enabled = false;
     }
 }
