@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731713, g: 0.13414736, b: 0.12107852, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731715, g: 0.13414735, b: 0.121078536, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1701,7 +1701,7 @@ GameObject:
   - component: {fileID: 1140905010}
   - component: {fileID: 1140905009}
   m_Layer: 0
-  m_Name: add_object_script
+  m_Name: Controller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1719,8 +1719,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5775a3a8b6d15fc428f6a05820cd3cab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selected: {fileID: 0}
+  Camera: {fileID: 0}
   PlanetPrefab: {fileID: 2113496937954369857, guid: b4fdc8a5a6eb75c47847f4a9bfdda603, type: 3}
+  selectedPlanet: {fileID: 0}
   StarPrefab: {fileID: 2768035821584852144, guid: 73b20757465b634479e799e63640d22a, type: 3}
+  MoonPrefab: {fileID: -2579506100166217588, guid: 48e498c67edd69346bdb7b28071a4f9d, type: 3}
 --- !u!4 &1140905010
 Transform:
   m_ObjectHideFlags: 0
@@ -1730,7 +1734,7 @@ Transform:
   m_GameObject: {fileID: 1140905008}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 588696215}

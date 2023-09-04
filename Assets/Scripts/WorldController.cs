@@ -1,14 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class CreateObject : MonoBehaviour
+public class WorldController : MonoBehaviour
 {
     public enum Objects {
         star,
         planet,
         moon
     }
+
+    public Slider speedSlider;
+    public Slider distanceSlider;
 
     public static Objects objectType;
     public static Objects selectedType;
@@ -20,12 +24,31 @@ public class CreateObject : MonoBehaviour
     static float orbitSpeedValue;
 
     public Planet PlanetPrefab;
+    public Planet selectedPlanet;
     public Star StarPrefab;
     public Moon MoonPrefab;
+
+    private bool slidersSet;
     
 
     public void Start() {
         Camera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+        selectedPlanet = null;
+        slidersSet = false;
+        speedSlider = GameObject.FindWithTag("SpeedSlider").GetComponent<Slider>();
+        distanceSlider = GameObject.FindWithTag("DistanceSlider").GetComponent<Slider>();
+        if(speedSlider == null) {
+            Debug.Log("Speed slider couldn't be found");
+        }
+        else {
+            speedSlider.value = 30;
+        }
+        if(distanceSlider == null) {
+            Debug.Log("Distance slider couldn't be found");
+        }
+        else {
+            distanceSlider.value = 20;
+        }
     }
 
     void Update()
@@ -35,27 +58,46 @@ public class CreateObject : MonoBehaviour
 
             if(Physics.Raycast(ray, out RaycastHit hitInfo)) {
                 selected = hitInfo.transform.gameObject;
-            }
-            else {
-                // selected = null;
-            }
-
-            if (selected != null) {
-                if(selected.GetComponent<Planet>() != null) {
-                    Debug.Log("Selected Object is a planet...");
-                    Planet selectedPlanet = selected.GetComponent<Planet>();
-                    selectedPlanet.Select(true);
-                    selectedPlanet.ChangeValues(orbitDistanceValue, orbitSpeedValue);
-                    selectedType = Objects.planet;
-                }
-                if(selected.GetComponent<Star>() != null) {
-                    Debug.Log("Selected Object is a star...");
-                }
-                if(selected.GetComponent<Moon>() != null) {
-                    Debug.Log("Selected Object is a moon...");
-                }
+                slidersSet = false;
             }
         }
+
+        if (selected != null) {
+            if(selected.GetComponent<Planet>() != null) {
+
+                if(selectedPlanet != null && selectedPlanet != selected.GetComponent<Planet>()) {
+                    selectedPlanet.Select(false);
+                    selectedPlanet = null;
+                    slidersSet = false;
+                }
+
+                selectedType = Objects.planet;
+                selectedPlanet = selected.GetComponent<Planet>();
+                selectedPlanet.Select(true);
+                
+                if(!slidersSet) {    
+                    distanceSlider.value = selectedPlanet.ReturnDistance();
+                    speedSlider.value = selectedPlanet.ReturnSpeed();
+                    slidersSet = true;
+                }
+
+                if((selectedPlanet.ReturnDistance() != distanceSlider.value || selectedPlanet.ReturnSpeed() != speedSlider.value) &&
+                    slidersSet == true) {
+                    if(orbitDistanceValue <= StarPrefab.dangerZone) {
+                        selectedPlanet.CrashIntoStar();
+                    }
+                    selectedPlanet.ChangeValues(orbitDistanceValue, orbitSpeedValue);
+                }
+            }
+
+            if(selected.GetComponent<Star>() != null) {
+
+            }
+
+            if(selected.GetComponent<Moon>() != null) {
+
+            }
+        }      
     }
 
     public void SelectType(int index) {
@@ -87,7 +129,7 @@ public class CreateObject : MonoBehaviour
         switch (objectType) {
             case Objects.star:
                 Instantiate(StarPrefab, Vector3.zero, Quaternion.identity);
-                StarPrefab.dangerZone = 6;
+                StarPrefab.dangerZone = 2;
                 Debug.Log("Creating a star...");
             break;
             case Objects.planet:

@@ -34,7 +34,8 @@ public class Planet : MonoBehaviour
 
         if(isSelected) {
             renderer.material.color = Color.green;
-        } else {
+        }
+        else {
             renderer.material.color = Color.blue;
         }
     }
@@ -60,6 +61,14 @@ public class Planet : MonoBehaviour
     public void CrashIntoStar() {
         Debug.Log("I was too close to the sun...");
         Destroy(gameObject);
+    }
+
+    public float ReturnSpeed() {
+        return orbitSpeed;
+    }
+
+    public float ReturnDistance() {
+        return orbitDistance;
     }
 
 }

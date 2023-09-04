@@ -10,7 +10,7 @@ public class Star : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        dangerZone = 5;
+        dangerZone = 1f;
     }
 
     // Update is called once per frame
