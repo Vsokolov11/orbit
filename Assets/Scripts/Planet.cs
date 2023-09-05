@@ -46,13 +46,13 @@ public class Planet : MonoBehaviour
         }
     }
 
-    private void OnMouseEnter() {
-        renderer.material.color += Color.red;
-    }
+    // private void OnMouseEnter() {
+    //     renderer.material.color += Color.red;
+    // }
 
-    private void OnMouseExit() {
-        renderer.material.color -= Color.red;
-    }
+    // private void OnMouseExit() {
+    //     renderer.material.color -= Color.red;
+    // }
 
     public void Select(bool state) {
         isSelected = state;

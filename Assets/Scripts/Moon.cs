@@ -32,20 +32,20 @@ public class Moon : MonoBehaviour
             transform.position = target.transform.position + (transform.position - target.transform.position).normalized * orbitDistance;
             transform.RotateAround(target.transform.position, Vector3.up, orbitSpeed * Time.deltaTime);
         }
-        // if(isSelected) {
-        //     renderer.material.color += Color.green;
-        // } else {
-        //     renderer.material.color -= Color.green;
-        // }
+        if(isSelected) {
+            
+        } else {
+            
+        }
     }
 
-    private void OnMouseEnter() {
-        renderer.material.color += Color.red;
-    }
+    // private void OnMouseEnter() {
+    //     renderer.material.color += Color.red;
+    // }
 
-    private void OnMouseExit() {
-        renderer.material.color -= Color.red;
-    }
+    // private void OnMouseExit() {
+    //     renderer.material.color -= Color.red;
+    // }
 
     public void Select(bool state) {
         isSelected = state;
