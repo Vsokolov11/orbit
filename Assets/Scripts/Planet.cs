@@ -4,18 +4,15 @@ using UnityEngine;
 
 public class Planet : MonoBehaviour
 {
-    private Renderer renderer;
     private GameObject target;
     private float orbitDistance;
     private float orbitSpeed;
     private Vector3 initPos;
     private bool isSelected;
-
     private GameObject selectionPointer;
 
     void Start() {
         isSelected = false;
-        renderer = GetComponent<Renderer>();
         target  = GameObject.FindWithTag("Star");
         if(target != null) {
             InitializePlanet();
@@ -37,11 +34,9 @@ public class Planet : MonoBehaviour
         transform.RotateAround(target.transform.position, Vector3.up, orbitSpeed * Time.deltaTime);
 
         if(isSelected) {
-            renderer.material.color = Color.green;
             selectionPointer.SetActive(true);
         }
         else {
-            renderer.material.color = Color.blue;
             selectionPointer.SetActive(false);
         }
     }

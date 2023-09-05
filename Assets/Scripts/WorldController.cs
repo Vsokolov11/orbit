@@ -29,6 +29,7 @@ public class WorldController : MonoBehaviour
     public Planet selectedPlanet;
     public Star StarPrefab;
     public Moon MoonPrefab;
+    public Moon selectedMoon;
 
     private bool slidersSet;
     private bool isPaused;
@@ -89,14 +90,19 @@ public class WorldController : MonoBehaviour
         }
 
         if (selected != null) {
+            if(selectedPlanet != null && selectedPlanet != selected.GetComponent<Planet>()) {
+                selectedPlanet.Select(false);
+                selectedPlanet = null;
+                slidersSet = false;
+            }
+
+            if(selectedMoon != null && selectedMoon != selected.GetComponent<Moon>()) {
+                selectedMoon.Select(false);
+                selectedMoon = null;
+                slidersSet = false;
+            }
+
             if(selected.GetComponent<Planet>() != null) {
-
-                if(selectedPlanet != null && selectedPlanet != selected.GetComponent<Planet>()) {
-                    selectedPlanet.Select(false);
-                    selectedPlanet = null;
-                    slidersSet = false;
-                }
-
                 selectedType = Objects.planet;
                 selectedPlanet = selected.GetComponent<Planet>();
                 selectedPlanet.Select(true);
@@ -111,16 +117,34 @@ public class WorldController : MonoBehaviour
                     slidersSet == true) {
                     if(orbitDistanceValue <= StarPrefab.dangerZone) {
                         selectedPlanet.CrashIntoStar();
+                        selected = null;
                     }
                     selectedPlanet.ChangeValues(orbitDistanceValue, orbitSpeedValue);
                 }
             }
 
-            if(selected.GetComponent<Star>() != null) {
+            if(selected.GetComponent<Moon>() != null) {
+                selectedType = Objects.moon;
+                selectedMoon = selected.GetComponent<Moon>();
+                selectedMoon.Select(true);
 
+                if(!slidersSet) {    
+                    distanceSlider.value = selectedMoon.ReturnDistance();
+                    speedSlider.value = selectedMoon.ReturnSpeed();
+                    slidersSet = true;
+                }
+
+                if((selectedMoon.ReturnDistance() != distanceSlider.value || selectedMoon.ReturnSpeed() != speedSlider.value) &&
+                    slidersSet == true) {
+                    if(orbitDistanceValue <= StarPrefab.dangerZone) {
+                        selectedMoon.Die();
+                        selected = null;
+                    }
+                    selectedMoon.ChangeValues(orbitDistanceValue / 3, orbitSpeedValue);
+                }
             }
 
-            if(selected.GetComponent<Moon>() != null) {
+            if(selected.GetComponent<Star>() != null) {
 
             }
         }      

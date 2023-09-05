@@ -4,21 +4,22 @@ using UnityEngine;
 
 public class Moon : MonoBehaviour
 {
-    private Renderer renderer;
     private GameObject target;
     private float orbitDistance;
     private float orbitSpeed;
     private Vector3 initPos;
     private bool isSelected;
+    private GameObject selectionPointer;
 
     void Start() {
         isSelected = false;
-        renderer = GetComponent<Renderer>();
         target = transform.parent.gameObject;
         if (target == null) {
             Debug.Log("There is no planet to go around...");
             Die();
         }
+        selectionPointer = this.gameObject.transform.GetChild(0).gameObject;
+        selectionPointer.SetActive(false);
     }
 
     public void InitializeMoon() {
@@ -33,9 +34,9 @@ public class Moon : MonoBehaviour
             transform.RotateAround(target.transform.position, Vector3.up, orbitSpeed * Time.deltaTime);
         }
         if(isSelected) {
-            
+            selectionPointer.SetActive(true);
         } else {
-            
+            selectionPointer.SetActive(false);
         }
     }
 
@@ -54,6 +55,19 @@ public class Moon : MonoBehaviour
     public void ChangeValues(float newOrbitDistance, float newOrbitSpeed) {
         orbitDistance = newOrbitDistance;
         orbitSpeed = newOrbitSpeed;
+    }
+
+    public float ReturnSpeed() {
+        return orbitSpeed;
+    }
+
+    public float ReturnDistance() {
+        return orbitDistance * 3;
+    }
+
+    public void CrashIntoPlanet() {
+        Die();
+        Debug.Log("I was too close to the planet");
     }
 
     public void Die() {
